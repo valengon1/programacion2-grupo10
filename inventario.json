@@ -1,0 +1,23 @@
+[
+  {
+    "id": "1",
+    "peso": 30,
+    "destino": "CABA",
+    "urgente": false,
+    "contenido": "Ropa"
+  },
+  {
+    "id": "2",
+    "peso": 60,
+    "destino": "Cordoba",
+    "urgente": false,
+    "contenido": "Electrodomestico"
+  },
+  {
+    "id": "3",
+    "peso": 10,
+    "destino": "Rosario",
+    "urgente": true,
+    "contenido": "Documentos"
+  }
+]
