@@ -2,6 +2,8 @@ package com.logistica.modelo;
 
 public class Paquete<T> {
 
+    private static int siguienteId = 1;
+
     private String id;
     private double peso;
     private String destino;
@@ -11,12 +13,38 @@ public class Paquete<T> {
     public Paquete() {
     }
 
+    public Paquete(double peso, String destino, boolean urgente, T contenido) {
+        this.id = generarId();
+        this.peso = peso;
+        this.destino = destino;
+        this.urgente = urgente;
+        this.contenido = contenido;
+    }
+
     public Paquete(String id, double peso, String destino, boolean urgente, T contenido) {
         this.id = id;
         this.peso = peso;
         this.destino = destino;
         this.urgente = urgente;
         this.contenido = contenido;
+        actualizarContador(id);
+    }
+
+    private static String generarId() {
+        String idGenerado = String.format("%04d", siguienteId);
+        siguienteId++;
+        return idGenerado;
+    }
+
+    private static void actualizarContador(String id) {
+        try {
+            int numero = Integer.parseInt(id);
+            if (numero >= siguienteId) {
+                siguienteId = numero + 1;
+            }
+        } catch (NumberFormatException e) {
+            // Si el ID no es numérico, no se actualiza el contador
+        }
     }
 
     public String getId() {

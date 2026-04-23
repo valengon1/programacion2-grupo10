@@ -1,34 +1,73 @@
 package com.logistica;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.logistica.estructuras.Camion;
 import com.logistica.estructuras.CentroDistribucion;
 import com.logistica.modelo.Paquete;
-import com.logistica.util.JsonLoader;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
+    public static List<Paquete<String>> cargarPaquetes(String ruta) {
+        Gson gson = new Gson();
+
+        try {
+            FileReader reader = new FileReader(ruta);
+            Type tipoLista = new TypeToken<List<Paquete<String>>>() {}.getType();
+            List<Paquete<String>> paquetes = gson.fromJson(reader, tipoLista);
+            reader.close();
+
+            if (paquetes == null) {
+                return new ArrayList<>();
+            }
+
+            return paquetes;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    public static void guardarPaquetes(String ruta, List<Paquete<String>> paquetes) {
+        Gson gson = new Gson();
+
+        try {
+            String json = gson.toJson(paquetes);
+            FileWriter writer = new FileWriter(ruta);
+            writer.write(json);
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
         CentroDistribucion centro = new CentroDistribucion();
+        Camion camion = new Camion();
 
-        List<Paquete<String>> paquetes = JsonLoader.cargarPaquetes("inventario.json");
+        List<Paquete<String>> paquetes = cargarPaquetes("inventario.json");
 
-        if (paquetes != null) {
-            for (Paquete<String> p : paquetes) {
-                centro.agregarPaquete(p);
-            }
+        for (Paquete<String> p : paquetes) {
+            centro.agregarPaquete(p);
         }
 
         int opcion;
 
         do {
-            System.out.println("\n MENU");
+            System.out.println("\nMENU");
             System.out.println("1. Procesar paquete");
             System.out.println("2. Ver siguiente paquete");
             System.out.println("3. Agregar paquete");
+            System.out.println("4. Deshacer ultima carga");
             System.out.println("0. Salir");
             System.out.print("Opcion: ");
 
@@ -39,7 +78,8 @@ public class Main {
                 case 1:
                     Paquete<?> procesado = centro.procesarPaquete();
                     if (procesado != null) {
-                        System.out.println("Procesado: " + procesado);
+                        camion.cargar(procesado);
+                        System.out.println("Paquete cargado en camion: " + procesado);
                     } else {
                         System.out.println("No hay paquetes");
                     }
@@ -57,9 +97,6 @@ public class Main {
                 case 3:
                     scanner.nextLine();
 
-                    System.out.print("ID: ");
-                    String id = scanner.nextLine();
-
                     System.out.print("Peso: ");
                     double peso = scanner.nextDouble();
 
@@ -68,18 +105,30 @@ public class Main {
                     System.out.print("Destino: ");
                     String destino = scanner.nextLine();
 
-                    System.out.print("Urgente (true/false): ");
-                    boolean urgente = scanner.nextBoolean();
+                    System.out.print("Urgente (si/no): ");
+                    String prioridad = scanner.nextLine();
 
-                    scanner.nextLine();
+                    boolean urgente = prioridad.equalsIgnoreCase("si");
 
                     System.out.print("Contenido: ");
                     String contenido = scanner.nextLine();
 
-                    Paquete<String> nuevo = new Paquete<>(id, peso, destino, urgente, contenido);
+                    Paquete<String> nuevo = new Paquete<>(peso, destino, urgente, contenido);
                     centro.agregarPaquete(nuevo);
+                    paquetes.add(nuevo);
+                    guardarPaquetes("inventario.json", paquetes);
 
-                    System.out.println("Paquete agregado correctamente");
+                    System.out.println("Paquete agregado correctamente con ID: " + nuevo.getId());
+                    break;
+
+                case 4:
+                    Paquete<?> deshecho = camion.deshacerCarga();
+                    if (deshecho != null) {
+                        centro.agregarPaquete(deshecho);
+                        System.out.println("Se deshizo la ultima carga y el paquete volvio al centro: " + deshecho);
+                    } else {
+                        System.out.println("El camion esta vacio");
+                    }
                     break;
 
                 case 0:

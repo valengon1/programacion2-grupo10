@@ -11,15 +11,21 @@ public class CentroDistribucion {
     public CentroDistribucion() {
         cola = new PriorityQueue<>((p1, p2) -> {
 
-            // 1. Urgentes primero
-            if (p1.isUrgente() && !p2.isUrgente()) return -1;
-            if (!p1.isUrgente() && p2.isUrgente()) return 1;
+            if (p1.isUrgente() && !p2.isUrgente()) {
+                return -1;
+            }
+            if (!p1.isUrgente() && p2.isUrgente()) {
+                return 1;
+            }
 
-            // 2. Peso mayor a 50kg
-            if (p1.getPeso() > 50 && p2.getPeso() <= 50) return -1;
-            if (p1.getPeso() <= 50 && p2.getPeso() > 50) return 1;
+            if (p1.getPeso() > 50 && p2.getPeso() <= 50) {
+                return -1;
+            }
+            if (p1.getPeso() <= 50 && p2.getPeso() > 50) {
+                return 1;
+            }
 
-            return 0;
+            return p1.getId().compareTo(p2.getId());
         });
     }
 

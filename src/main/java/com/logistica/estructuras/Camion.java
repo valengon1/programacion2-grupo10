@@ -30,6 +30,13 @@ public class Camion {
         return descargar();
     }
 
+    public Paquete<?> verUltimo() {
+        if (!pila.isEmpty()) {
+            return pila.peek();
+        }
+        return null;
+    }
+
     public boolean estaVacio() {
         return pila.isEmpty();
     }
