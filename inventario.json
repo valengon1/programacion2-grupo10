@@ -1,1 +1,30 @@
-[{"id":"1","peso":30.0,"destino":"CABA","urgente":false,"contenido":"Ropa"},{"id":"2","peso":60.0,"destino":"Cordoba","urgente":false,"contenido":"Electrodomestico"},{"id":"3","peso":10.0,"destino":"Rosario","urgente":true,"contenido":"Documentos"},{"id":"0001","peso":10.0,"destino":"santa fe","urgente":true,"contenido":"lapices"}]
+[
+  {
+    "id": "0001",
+    "peso": 30.0,
+    "destino": "CABA",
+    "urgente": false,
+    "contenido": "Ropa"
+  },
+  {
+    "id": "0002",
+    "peso": 60.0,
+    "destino": "Cordoba",
+    "urgente": false,
+    "contenido": "Electrodomestico"
+  },
+  {
+    "id": "0003",
+    "peso": 10.0,
+    "destino": "Rosario",
+    "urgente": true,
+    "contenido": "Documentos"
+  },
+  {
+    "id": "0004",
+    "peso": 10.0,
+    "destino": "Santa Fe",
+    "urgente": true,
+    "contenido": "Lapices"
+  }
+]
