@@ -4,27 +4,23 @@
     "peso": 30.0,
     "destino": "CABA",
     "urgente": false,
-    "contenido": "Ropa"
+    "contenido": "Ropa",
+    "minutosIngreso": 20
   },
   {
     "id": "0002",
     "peso": 60.0,
     "destino": "Cordoba",
     "urgente": false,
-    "contenido": "Electrodomestico"
+    "contenido": "Electrodomestico",
+    "minutosIngreso": 45
   },
   {
     "id": "0003",
     "peso": 10.0,
     "destino": "Rosario",
     "urgente": true,
-    "contenido": "Documentos"
-  },
-  {
-    "id": "0004",
-    "peso": 10.0,
-    "destino": "Santa Fe",
-    "urgente": true,
-    "contenido": "Lapices"
+    "contenido": "Documentos",
+    "minutosIngreso": 50
   }
 ]
